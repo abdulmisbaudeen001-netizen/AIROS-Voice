@@ -1,0 +1,20 @@
+# Render Deployment Configuration for AIROS Voice Backend
+
+services:
+  - type: web
+    name: airos-voice-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn main:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    envVars:
+      - key: DEBUG
+        value: 'False'
+      - key: FLASK_ENV
+        value: production
+      - key: WHISPER_MODEL
+        value: base
+
+# Note: Store secrets in Render dashboard, not here
+# Required secrets:
+# - BACKEND_URL (set to Render deployment URL)
